@@ -1,0 +1,38 @@
+# Publicerar repots rot till GitHub Pages.
+# Under Settings → Pages → Build and deployment måste Source vara GitHub Actions.
+
+name: Publicera GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hämta koden
+        uses: actions/checkout@v7
+
+      - name: Ladda upp webbplatsen
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: .
+
+      - name: Publicera
+        id: deployment
+        uses: actions/deploy-pages@v5

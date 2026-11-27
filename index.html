@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="sv" translate="no">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Att göra</title>
+    <meta name="description" content="En liten att-göra-lista som sparas på den här datorn.">
+    <meta name="google" content="notranslate">
+    <meta name="theme-color" content="#2c261f" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a1613" media="(prefers-color-scheme: dark)">
+    <link rel="icon" href="icon-192.png" type="image/png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="fonts.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip" href="#innehall">Hoppa till innehållet</a>
+
+    <div class="app">
+      <header class="band">
+        <p class="date" id="today">Idag</p>
+        <h1>Att göra</h1>
+        <p class="lede">Listan sparas på den här datorn.</p>
+      </header>
+
+      <main id="innehall" class="sheet" tabindex="-1">
+        <noscript>
+          <p class="note">Slå på JavaScript för att använda listan.</p>
+        </noscript>
+
+        <form id="composer" autocomplete="off">
+          <div class="field">
+            <label for="ny-uppgift">Ny uppgift</label>
+            <div class="composer-row">
+              <input
+                id="ny-uppgift"
+                class="text-input"
+                type="text"
+                name="title"
+                maxlength="200"
+                placeholder="Vad ska du göra?"
+                autocomplete="off"
+                autocapitalize="sentences"
+                spellcheck="false"
+                enterkeyhint="done"
+                data-focus-key="composer"
+              >
+              <button type="submit" class="btn btn-primary">Lägg till</button>
+            </div>
+            <p id="composer-error" class="error" hidden>Skriv en uppgift först.</p>
+          </div>
+        </form>
+
+        <div class="toolbar">
+          <p class="count" id="count" aria-live="polite" aria-atomic="true">0 kvar</p>
+          <fieldset class="filters">
+            <legend class="sr-only">Filtrera uppgifter</legend>
+            <label class="filter">
+              <input type="radio" name="filter" value="all" checked>
+              <span>Alla</span>
+            </label>
+            <label class="filter">
+              <input type="radio" name="filter" value="active">
+              <span>Aktiva</span>
+            </label>
+            <label class="filter">
+              <input type="radio" name="filter" value="done">
+              <span>Klara</span>
+            </label>
+          </fieldset>
+        </div>
+
+        <div class="list-scroll">
+          <h2 class="sr-only">Uppgifter</h2>
+          <ul id="list" class="list" aria-label="Alla uppgifter"></ul>
+
+          <div id="empty" class="empty" aria-live="polite" hidden>
+            <svg class="empty-icon" viewBox="0 0 48 48" aria-hidden="true">
+              <circle cx="24" cy="24" r="16" fill="none" stroke="currentColor" stroke-width="1.5"></circle>
+              <path d="M16 24.5 21 29.5 32 18.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <p id="empty-text"></p>
+          </div>
+        </div>
+
+        <div class="sheet-footer">
+          <button type="button" id="clear" class="btn-quiet" data-focus-key="clear" disabled>Rensa klara</button>
+          <p id="hint" class="hint" hidden>Dubbelklicka för att redigera.</p>
+        </div>
+
+        <p id="storage-note" class="note" role="status" hidden>
+          Kunde inte spara i den här webbläsaren. Uppgifterna försvinner om du stänger sidan.
+        </p>
+        <p id="status" class="sr-only" role="status"></p>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
