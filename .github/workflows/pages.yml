@@ -1,5 +1,7 @@
 # Publicerar repots rot till GitHub Pages.
-# Under Settings → Pages → Build and deployment måste Source vara GitHub Actions.
+# Source under Settings → Pages måste vara GitHub Actions.
+# Uppladdningen måste avslutas innan deploy-pages kan se artefakten github-pages,
+# så de två stegen ligger i varsitt jobb.
 
 name: Publicera GitHub Pages
 
@@ -19,20 +21,27 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Hämta koden
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
+
+      - name: Konfigurera Pages
+        uses: actions/configure-pages@v5
 
       - name: Ladda upp webbplatsen
-        uses: actions/upload-pages-artifact@v5
+        uses: actions/upload-pages-artifact@v3
         with:
           path: .
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Publicera
         id: deployment
         uses: actions/deploy-pages@v5
